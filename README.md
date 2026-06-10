@@ -36,7 +36,7 @@ Install Hermes Agent:
 cd hermes-agent
 uv venv venv --python 3.11
 source venv/bin/activate
-uv pip install -e ".[all,dev]"
+uv pip install -e ".[all]"
 cd ..
 ```
 
@@ -63,19 +63,24 @@ chmod 600 keys.env
 Edit `keys.env` and add your keys:
 
 ```bash
+HERMES_DEMO_PROVIDER=nvidia
 NVIDIA_API_KEY=replace-with-your-nvidia-inference-key
 TAVILY_API_KEY=replace-with-your-tavily-key
 ```
 
+You can also set `HERMES_DEMO_PROVIDER=anthropic` with `ANTHROPIC_API_KEY`,
+or `HERMES_DEMO_PROVIDER=openai` with `OPENAI_API_KEY`. You only need one
+model-provider key for the provider you pick.
+
 Run the demo:
 
 ```bash
-./run.sh research
+./run.sh
 ```
 
-Use `./run.sh research` for the best visual walkthrough with web search. Use
-`./run.sh` when you want to exercise all three Hermes request families:
-`/v1/messages`, `/v1/chat/completions`, and `/v1/responses`.
+By default, `./run.sh` runs the best visual web-search walkthrough for the
+provider you selected. Use `./run.sh all` only when you want to compare every
+request family supported by that provider.
 
 Open Phoenix:
 
@@ -87,12 +92,11 @@ http://127.0.0.1:6006/projects
 
 | Command | What it runs | Best use |
 | --- | --- | --- |
-| `./run.sh research` | `/v1/messages` with Tavily web search | Best live walkthrough |
-| `./run.sh` | `/v1/messages`, `/v1/chat/completions`, `/v1/responses` | Full request-family check |
-| `./run.sh messages` | `/v1/messages` | Anthropic Messages lane |
-| `./run.sh chat` | `/v1/chat/completions` | OpenAI-compatible chat lane |
-| `./run.sh responses` | `/v1/responses` | OpenAI Responses lane |
-| `./run.sh research-all` | Web-search demo across all three lanes | Deeper live walkthrough |
+| `./run.sh` | Web-search demo on the selected provider's default lane | Best live walkthrough |
+| `./run.sh all` | Web-search demo across supported lanes | Request-family comparison |
+| `./run.sh messages` | `/v1/messages` | NVIDIA or Anthropic |
+| `./run.sh chat` | `/v1/chat/completions` | NVIDIA or OpenAI |
+| `./run.sh responses` | `/v1/responses` | NVIDIA or OpenAI |
 
 The script starts or reuses Phoenix and creates one project per selected lane:
 
@@ -108,8 +112,10 @@ nemo-relay-hermes-demo-<run-id>-<lane>
 - ATOF JSONL is written for LLM and tool lifecycle events.
 - ATIF trajectory JSON is written for the agent run.
 - OpenInference traces reach Phoenix and show the Hermes LLM/tool tree.
-- The demo can exercise `/v1/messages`, `/v1/chat/completions`, and
+- The NVIDIA path can exercise `/v1/messages`, `/v1/chat/completions`, and
   `/v1/responses`.
+- The Anthropic path exercises `/v1/messages`.
+- The OpenAI path exercises `/v1/chat/completions` and `/v1/responses`.
 
 Cost is provider-payload gated. If the provider returns explicit cost fields,
 Relay surfaces them. If the provider returns usage tokens only, the artifacts
@@ -122,8 +128,8 @@ show usage and Phoenix may estimate display cost depending on its model rules.
 - NeMo Relay installed in the Hermes environment.
 - Docker for Phoenix.
 - `curl` on `PATH`.
-- NVIDIA Inference key.
-- Tavily key for `research` or `research-all`.
+- One model-provider key: NVIDIA Inference, Anthropic, or OpenAI.
+- Tavily key.
 
 The default sibling-checkout layout is:
 
@@ -141,18 +147,54 @@ HERMES_REPO=/path/to/hermes-agent
 
 ## Provider Setup
 
-The demo uses NVIDIA Inference by default. Set these in `keys.env`:
+Pick one provider in `keys.env`:
 
 ```bash
+HERMES_DEMO_PROVIDER=nvidia
 NVIDIA_API_KEY=replace-with-your-nvidia-inference-key
 TAVILY_API_KEY=replace-with-your-tavily-key
 ```
 
-`NVIDIA_MODEL_ID` is optional. Override it only if the default model is not
-enabled for your NVIDIA key.
+For Anthropic:
+
+```bash
+HERMES_DEMO_PROVIDER=anthropic
+ANTHROPIC_API_KEY=replace-with-your-anthropic-key
+TAVILY_API_KEY=replace-with-your-tavily-key
+```
+
+For OpenAI:
+
+```bash
+HERMES_DEMO_PROVIDER=openai
+OPENAI_API_KEY=replace-with-your-openai-key
+TAVILY_API_KEY=replace-with-your-tavily-key
+```
+
+Provider defaults:
+
+| Provider | Default model | Supported lanes |
+| --- | --- | --- |
+| `nvidia` | `aws/anthropic/bedrock-claude-sonnet-4-6` | `messages`, `chat`, `responses` |
+| `anthropic` | `claude-sonnet-4-6` | `messages` |
+| `openai` | `gpt-4.1` | `chat`, `responses` |
+
+If your account does not have access to the default model, set the matching
+override in `keys.env`: `NVIDIA_MODEL_ID`, `ANTHROPIC_MODEL_ID`, or
+`OPENAI_MODEL_ID`.
 
 Keep `keys.env` private. Generated outputs can contain prompts, model
 responses, traces, and provider metadata.
+
+## Advanced Overrides
+
+The defaults assume the sibling checkout layout documented above and Phoenix on
+port `6006`. If needed, set these in `keys.env`:
+
+```bash
+HERMES_REPO=/path/to/hermes-agent
+PHOENIX_UI_PORT=6007
+```
 
 ## Inspect Results
 
