@@ -220,6 +220,22 @@ For a quick walkthrough in Phoenix:
 4. Show the trace tree with LLM spans and tool spans.
 5. Select an LLM span and show input, output, usage, latency, and cost.
 
+## Phoenix Walkthrough
+
+The trace tree shows Hermes running normally while NeMo Relay records the LLM
+and tool boundaries:
+
+![Phoenix trace tree](screenshots/phoenix-trace-tree.png)
+
+Tool spans show the Tavily-backed web search calls that Hermes made during the
+run:
+
+![Phoenix web search span](screenshots/phoenix-web-search-span.png)
+
+LLM spans show the prompt, model output, usage, latency, and cost metadata:
+
+![Phoenix final LLM span](screenshots/phoenix-final-llm-span.png)
+
 For local artifacts:
 
 ```text
