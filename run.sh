@@ -149,7 +149,7 @@ resolve_nemo_relay_runtime() {
   fi
 
   echo "ERROR: NeMo Relay is not available to Hermes." >&2
-  echo "Install nemo-relay in the Hermes environment or set NEMO_RELAY_REPO to a source checkout." >&2
+  echo "Install nemo-relay in the Hermes environment: cd hermes-agent && source venv/bin/activate && uv pip install nemo-relay" >&2
   exit 1
 }
 

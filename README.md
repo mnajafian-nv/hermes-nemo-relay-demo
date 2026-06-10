@@ -15,11 +15,10 @@ You do not need to modify your normal `~/.hermes` config or run
 
 ## Quickstart
 
-This demo expects a local Hermes Agent checkout. NeMo Relay can come from either
-a local source checkout or an installed `nemo-relay` Python package in the
-Hermes environment. The Hermes checkout must include the bundled
-`observability/nemo_relay` plugin. If you already have that setup, skip to the
-demo setup below.
+This demo expects a local Hermes Agent checkout with the bundled
+`observability/nemo_relay` plugin and the `nemo-relay` Python package installed
+in the Hermes environment. If you already have that setup, skip to the demo
+setup below.
 
 Create the sibling checkout layout:
 
@@ -36,33 +35,22 @@ Install Hermes Agent:
 ```bash
 cd hermes-agent
 uv venv venv --python 3.11
-export VIRTUAL_ENV="$(pwd)/venv"
+source venv/bin/activate
 uv pip install -e ".[all,dev]"
 cd ..
 ```
 
-Install NeMo Relay into the Hermes environment. For the released package:
+Install NeMo Relay into the Hermes environment:
 
 ```bash
 cd hermes-agent
-export VIRTUAL_ENV="$(pwd)/venv"
+source venv/bin/activate
 uv pip install nemo-relay
 cd ..
 ```
 
-For a local NeMo Relay source checkout instead:
-
-```bash
-git clone https://github.com/NVIDIA/NeMo-Relay.git
-cd hermes-agent
-export VIRTUAL_ENV="$(pwd)/venv"
-uv pip install -e ../NeMo-Relay
-cd ..
-```
-
-The script checks both forms at startup. If `nemo_relay` is not importable from
-the Hermes Python environment and no source checkout is available, it exits with
-a setup error before running the model.
+If `nemo_relay` is not importable from the Hermes Python environment, the script
+exits with a setup error before running the model.
 
 Demo setup:
 
@@ -138,8 +126,7 @@ show usage and Phoenix may estimate display cost depending on its model rules.
 
 - Local Hermes Agent checkout with a working virtual environment and the bundled
   `observability/nemo_relay` plugin.
-- NeMo Relay installed in the Hermes environment, or a local NeMo Relay source
-  checkout.
+- NeMo Relay installed in the Hermes environment.
 - Docker for Phoenix.
 - `curl` on `PATH`.
 - NVIDIA Inference key for the default setup, or direct provider keys for the
@@ -151,18 +138,10 @@ The default sibling-checkout layout is:
 ```text
 <workspace>/
   hermes-agent/
-  NeMo-Relay/                  # optional when nemo-relay is installed
   hermes-nemo-relay-demo/
 ```
 
-If your NeMo Relay source checkout is in a different location, set this in
-`keys.env`:
-
-```bash
-NEMO_RELAY_REPO=/path/to/NeMo-Relay
-```
-
-If your Hermes checkout is in a different location, also set:
+If your Hermes checkout is in a different location, set this in `keys.env`:
 
 ```bash
 HERMES_REPO=/path/to/hermes-agent
