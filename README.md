@@ -247,11 +247,9 @@ outputs/<run-id>/<lane>/logs/hermes.log
 outputs/<run-id>/<lane>/summary.txt
 ```
 
-## Stop And Clean Up
+## Clean Up
 
-Phoenix is reusable. Leaving it running makes repeated demos faster.
-
-To stop the Phoenix container:
+Phoenix runs in Docker and is reused across demo runs. To stop it:
 
 ```bash
 docker stop nemo-relay-phoenix
@@ -259,13 +257,3 @@ docker stop nemo-relay-phoenix
 
 Generated run data is written under `outputs/`. Delete old run directories when
 you no longer need the local evidence.
-
-## Script Checks
-
-Before sharing local edits:
-
-```bash
-bash -n run.sh
-uvx --from shellcheck-py shellcheck run.sh
-./run.sh --help
-```
