@@ -30,6 +30,20 @@ git clone https://github.com/NousResearch/hermes-agent.git
 git clone https://github.com/mnajafian-nv/hermes-nemo-relay-demo.git
 ```
 
+Temporary Hermes branch note:
+
+Until [NousResearch/hermes-agent#43036](https://github.com/NousResearch/hermes-agent/pull/43036)
+is merged, use the Hermes branch that includes the one-shot cleanup fix:
+
+```bash
+cd hermes-agent
+git fetch https://github.com/mnajafian-nv/hermes-agent.git fix/one-shot-query-cleanup-before-lease-release
+git switch -c fix/one-shot-query-cleanup-before-lease-release FETCH_HEAD
+cd ..
+```
+
+After that PR merges into Hermes `main`, this branch step is no longer needed.
+
 Install Hermes Agent:
 
 ```bash
