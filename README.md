@@ -243,7 +243,8 @@ outputs/<run-id>/<lane>/atof/events.jsonl
 outputs/<run-id>/<lane>/atif/*.json
 outputs/<run-id>/<lane>/nemo-relay/plugins.toml
 outputs/<run-id>/<lane>/hermes-home/config.yaml
-outputs/<run-id>/summary.txt
+outputs/<run-id>/<lane>/logs/hermes.log
+outputs/<run-id>/<lane>/summary.txt
 ```
 
 ## Stop And Clean Up
