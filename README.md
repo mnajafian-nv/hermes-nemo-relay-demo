@@ -246,14 +246,3 @@ outputs/<run-id>/<lane>/hermes-home/config.yaml
 outputs/<run-id>/<lane>/logs/hermes.log
 outputs/<run-id>/<lane>/summary.txt
 ```
-
-## Clean Up
-
-Phoenix runs in Docker and is reused across demo runs. To stop it:
-
-```bash
-docker stop nemo-relay-phoenix
-```
-
-Generated run data is written under `outputs/`. Delete old run directories when
-you no longer need the local evidence.
