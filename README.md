@@ -125,6 +125,20 @@ Cost is provider-payload gated. If the provider returns explicit cost fields,
 Relay surfaces them. If the provider returns usage tokens only, the artifacts
 show usage and Phoenix may estimate display cost depending on its model rules.
 
+## Explore More
+
+Hermes can use NeMo Relay to export the same run in three useful views:
+
+- ATOF raw event logs for debugging
+- ATIF trajectory files for replay and evaluation
+- OpenInference traces for Phoenix or any compatible OTLP/OpenInference backend
+
+The captured data can include session, tool, subagent, and LLM/provider lifecycle
+events across Anthropic `/v1/messages`, OpenAI-compatible
+`/v1/chat/completions`, and OpenAI/OpenAI-compatible `/v1/responses` when
+those Hermes provider paths are configured. Usage and cost are preserved when
+the provider payload includes them.
+
 ## Prerequisites
 
 - Local Hermes Agent checkout with a working virtual environment and the bundled
