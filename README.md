@@ -60,17 +60,10 @@ cp keys.env.example keys.env
 chmod 600 keys.env
 ```
 
-Edit `keys.env` and add your provider key.
-
-For the default NVIDIA Inference setup:
+Edit `keys.env` and add your keys:
 
 ```bash
 NVIDIA_API_KEY=replace-with-your-nvidia-inference-key
-```
-
-For the web-search demo, also set:
-
-```bash
 TAVILY_API_KEY=replace-with-your-tavily-key
 ```
 
@@ -129,8 +122,7 @@ show usage and Phoenix may estimate display cost depending on its model rules.
 - NeMo Relay installed in the Hermes environment.
 - Docker for Phoenix.
 - `curl` on `PATH`.
-- NVIDIA Inference key for the default setup, or direct provider keys for the
-  lanes you want to run.
+- NVIDIA Inference key.
 - Tavily key for `research` or `research-all`.
 
 The default sibling-checkout layout is:
@@ -149,35 +141,15 @@ HERMES_REPO=/path/to/hermes-agent
 
 ## Provider Setup
 
-The NVIDIA Inference defaults are configured for all three request families
-when the model is enabled for your account:
+The demo uses NVIDIA Inference by default. Set these in `keys.env`:
 
 ```bash
 NVIDIA_API_KEY=replace-with-your-nvidia-inference-key
-NVIDIA_MODEL_ID=aws/anthropic/bedrock-claude-sonnet-4-6
+TAVILY_API_KEY=replace-with-your-tavily-key
 ```
 
-For direct Anthropic Messages:
-
-```bash
-ANTHROPIC_API_KEY=replace-with-your-anthropic-key
-MESSAGES_API_KEY_ENV=ANTHROPIC_API_KEY
-MESSAGES_BASE_URL=https://api.anthropic.com
-MESSAGES_MODEL_ID=replace-with-anthropic-model-id
-```
-
-For direct OpenAI-compatible Chat Completions and Responses:
-
-```bash
-OPENAI_API_KEY=replace-with-your-openai-key
-CHAT_API_KEY_ENV=OPENAI_API_KEY
-CHAT_BASE_URL=https://api.openai.com/v1
-CHAT_MODEL_ID=replace-with-openai-chat-model-id
-
-RESPONSES_API_KEY_ENV=OPENAI_API_KEY
-RESPONSES_BASE_URL=https://api.openai.com/v1
-RESPONSES_MODEL_ID=replace-with-openai-responses-model-id
-```
+`NVIDIA_MODEL_ID` is optional. Override it only if the default model is not
+enabled for your NVIDIA key.
 
 Keep `keys.env` private. Generated outputs can contain prompts, model
 responses, traces, and provider metadata.
